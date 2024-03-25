@@ -1,4 +1,7 @@
+
+ // version corrigée
 pipeline {
+
     agent any
 
     stages {
