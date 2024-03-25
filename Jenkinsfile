@@ -1,7 +1,6 @@
+//change branche
 
- // version corrigée
 pipeline {
-
     agent any
 
     stages {
@@ -11,7 +10,7 @@ pipeline {
                 
                 // Récupérer le code depuis GitHub
                 checkout([$class: 'GitSCM', 
-                          branches: [[name: '*/main']], 
+                          branches: [[name: '*/master']], 
                           doGenerateSubmoduleConfigurations: false, 
                           extensions: [[$class: 'CleanCheckout']], 
                           submoduleCfg: [], 
