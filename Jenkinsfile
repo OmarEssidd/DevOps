@@ -8,7 +8,7 @@ pipeline {
                 
                 // Récupérer le code depuis GitHub
                 checkout([$class: 'GitSCM', 
-                          branches: [[name: '*/master']],  // Changed from '*/main' to '*/master'
+                          branches: [[name: '*/master']], 
                           doGenerateSubmoduleConfigurations: false, 
                           extensions: [[$class: 'CleanCheckout']], 
                           submoduleCfg: [], 
@@ -37,12 +37,6 @@ pipeline {
                     sh 'mvn sonar:sonar -Dsonar.login=omar'
                 }
             }
-        }
-    }
-
-    post {
-        always {
-            // Laisser vide si aucune logique supplémentaire n'est nécessaire
         }
     }
 }
