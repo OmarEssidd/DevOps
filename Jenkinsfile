@@ -1,5 +1,3 @@
-//change branche
-
 pipeline {
     agent any
 
@@ -10,7 +8,7 @@ pipeline {
                 
                 // Récupérer le code depuis GitHub
                 checkout([$class: 'GitSCM', 
-                          branches: [[name: '*/master']], 
+                          branches: [[name: '*/master']],  // Changed from '*/main' to '*/master'
                           doGenerateSubmoduleConfigurations: false, 
                           extensions: [[$class: 'CleanCheckout']], 
                           submoduleCfg: [], 
