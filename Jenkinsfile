@@ -34,7 +34,7 @@ pipeline {
             steps {
                 // Analyser la qualité du code avec SonarQube
                 withSonarQubeEnv('MonInstanceSonarQube') {
-                    sh 'mvn sonar:sonar -Dsonar.login=omar'
+                    sh 'mvn sonar:sonar -Dsonar.login=admin -Dsonar.password=squ_32e427e97d3e6f06f997b300c05c51acdc50a5f2'
                 }
             }
         }
