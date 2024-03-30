@@ -2,16 +2,15 @@ pipeline {
     agent any
 
     environment {
-        SONARQUBE_LOGIN = credentials('sonarqube-login')
-        SONARQUBE_PASSWORD = credentials('sonarqube-password')
+        SONARQUBE_LOGIN = credentials('f861bec6-fef9-462c-b5ae-0ef24474e8b6').username
+        SONARQUBE_PASSWORD = credentials('f861bec6-fef9-462c-b5ae-0ef24474e8b6').password
     }
 
     stages {
-        stage('GIT') {
+        stage('Checkout Code') {
             steps {
                 echo "Getting project from Git"
                 
-                // Récupérer le code depuis GitHub
                 checkout([$class: 'GitSCM', 
                           branches: [[name: '*/master']], 
                           doGenerateSubmoduleConfigurations: false, 
@@ -21,23 +20,20 @@ pipeline {
             }
         }
 
-        stage('MVN CLEAN') {
+        stage('Clean Project') {
             steps {
-                // Nettoyer le code avec Maven
                 sh 'mvn clean'
             }
         }
 
-        stage('MVN COMPILE') {
+        stage('Compile Project') {
             steps {
-                // Compiler le code avec Maven
                 sh 'mvn compile'
             }
         }
 
-        stage('MVN SONARQUBE') {
+        stage('SonarQube Analysis') {
             steps {
-                // Analyser la qualité du code avec SonarQube
                 withSonarQubeEnv('MonInstanceSonarQube') {
                     sh '''
                     mvn sonar:sonar \
