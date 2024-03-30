@@ -2,8 +2,7 @@ pipeline {
     agent any
 
     environment {
-        SONARQUBE_LOGIN = credentials('f861bec6-fef9-462c-b5ae-0ef24474e8b6').username
-        SONARQUBE_PASSWORD = credentials('f861bec6-fef9-462c-b5ae-0ef24474e8b6').password
+        SONARQUBE_CREDENTIALS = credentials('f861bec6-fef9-462c-b5ae-0ef24474e8b6')
     }
 
     stages {
@@ -44,8 +43,8 @@ pipeline {
                     timestamps {
                         sh """
                         mvn sonar:sonar \
-                            -Dsonar.login='${SONARQUBE_LOGIN}' \
-                            -Dsonar.password='${SONARQUBE_PASSWORD}'
+                            -Dsonar.login="${SONARQUBE_CREDENTIALS.username}" \
+                            -Dsonar.password="${SONARQUBE_CREDENTIALS.password}"
                         """
                     }
                 }
