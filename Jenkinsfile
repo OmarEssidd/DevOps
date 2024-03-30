@@ -42,11 +42,11 @@ pipeline {
             steps {
                 withSonarQubeEnv('MonInstanceSonarQube') {
                     timestamps {
-                        sh '''
+                        sh """
                         mvn sonar:sonar \
-                            -Dsonar.login="${env.SONARQUBE_LOGIN}" \
-                            -Dsonar.password="${env.SONARQUBE_PASSWORD}"
-                        '''
+                            -Dsonar.login='${env.SONARQUBE_LOGIN}' \
+                            -Dsonar.password='${env.SONARQUBE_PASSWORD}'
+                        """
                     }
                 }
             }
