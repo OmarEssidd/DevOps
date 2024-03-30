@@ -11,35 +11,43 @@ pipeline {
             steps {
                 echo "Getting project from Git"
                 
-                checkout([$class: 'GitSCM', 
-                          branches: [[name: '*/master']], 
-                          doGenerateSubmoduleConfigurations: false, 
-                          extensions: [[$class: 'CleanCheckout']], 
-                          submoduleCfg: [], 
-                          userRemoteConfigs: [[url: 'https://github.com/OmarEssidd/devops.git']]])
+                timestamps {
+                    checkout([$class: 'GitSCM', 
+                              branches: [[name: '*/master']], 
+                              doGenerateSubmoduleConfigurations: false, 
+                              extensions: [[$class: 'CleanCheckout']], 
+                              submoduleCfg: [], 
+                              userRemoteConfigs: [[url: 'https://github.com/OmarEssidd/devops.git']]])
+                }
             }
         }
 
         stage('Clean Project') {
             steps {
-                sh 'mvn clean'
+                timestamps {
+                    sh 'mvn clean'
+                }
             }
         }
 
         stage('Compile Project') {
             steps {
-                sh 'mvn compile'
+                timestamps {
+                    sh 'mvn compile'
+                }
             }
         }
 
         stage('SonarQube Analysis') {
             steps {
                 withSonarQubeEnv('MonInstanceSonarQube') {
-                    sh '''
-                    mvn sonar:sonar \
-                        -Dsonar.login=${env.SONARQUBE_LOGIN} \
-                        -Dsonar.password=${env.SONARQUBE_PASSWORD}
-                    '''
+                    timestamps {
+                        sh '''
+                        mvn sonar:sonar \
+                            -Dsonar.login="${env.SONARQUBE_LOGIN}" \
+                            -Dsonar.password="${env.SONARQUBE_PASSWORD}"
+                        '''
+                    }
                 }
             }
         }
