@@ -37,7 +37,7 @@ pipeline {
                     sh '''
                     mvn sonar:sonar \
                         -Dsonar.login=admin \
-                        -Dsonar.password=${credentials('sonarqube_token')}
+                        -Dsonar.password=${env.sonarqube_token}
                     '''
                 }
             }
