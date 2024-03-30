@@ -6,47 +6,38 @@ pipeline {
     }
 
     stages {
-        stage('Checkout Code') {
+        stage('Checkout SCM') {
             steps {
                 echo "Getting project from Git"
-                
-                timestamps {
-                    checkout([$class: 'GitSCM', 
-                              branches: [[name: '*/master']], 
-                              doGenerateSubmoduleConfigurations: false, 
-                              extensions: [[$class: 'CleanCheckout']], 
-                              submoduleCfg: [], 
-                              userRemoteConfigs: [[url: 'https://github.com/OmarEssidd/devops.git']]])
-                }
+                checkout([$class: 'GitSCM', 
+                          branches: [[name: '*/master']], 
+                          doGenerateSubmoduleConfigurations: false, 
+                          extensions: [[$class: 'CleanCheckout']], 
+                          submoduleCfg: [], 
+                          userRemoteConfigs: [[url: 'https://github.com/OmarEssidd/devops.git', credentialsId: 'f861bec6-fef9-462c-b5ae-0ef24474e8b6']]])
             }
         }
 
         stage('Clean Project') {
             steps {
-                timestamps {
-                    sh 'mvn clean'
-                }
+                sh 'mvn clean'
             }
         }
 
         stage('Compile Project') {
             steps {
-                timestamps {
-                    sh 'mvn compile'
-                }
+                sh 'mvn compile'
             }
         }
 
         stage('SonarQube Analysis') {
             steps {
                 withSonarQubeEnv('MonInstanceSonarQube') {
-                    timestamps {
-                        sh """
-                        mvn sonar:sonar \
-                            -Dsonar.login="${SONARQUBE_CREDENTIALS.username}" \
-                            -Dsonar.password="${SONARQUBE_CREDENTIALS.password}"
-                        """
-                    }
+                    sh """
+                    mvn sonar:sonar \
+                        -Dsonar.login="${SONARQUBE_CREDENTIALS_USR}" \
+                        -Dsonar.password="${SONARQUBE_CREDENTIALS_PSW}"
+                    """
                 }
             }
         }
