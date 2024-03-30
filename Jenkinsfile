@@ -44,8 +44,8 @@ pipeline {
                     timestamps {
                         sh """
                         mvn sonar:sonar \
-                            -Dsonar.login='${env.SONARQUBE_LOGIN}' \
-                            -Dsonar.password='${env.SONARQUBE_PASSWORD}'
+                            -Dsonar.login='${SONARQUBE_LOGIN}' \
+                            -Dsonar.password='${SONARQUBE_PASSWORD}'
                         """
                     }
                 }
