@@ -1,6 +1,11 @@
 pipeline {
     agent any
 
+    environment {
+        SONARQUBE_LOGIN = credentials('sonarqube-login')
+        SONARQUBE_PASSWORD = credentials('sonarqube-password')
+    }
+
     stages {
         stage('GIT') {
             steps {
@@ -36,8 +41,8 @@ pipeline {
                 withSonarQubeEnv('MonInstanceSonarQube') {
                     sh '''
                     mvn sonar:sonar \
-                        -Dsonar.login=admin \
-                        -Dsonar.password=${env.sonarqube_token}
+                        -Dsonar.login=${env.SONARQUBE_LOGIN} \
+                        -Dsonar.password=${env.SONARQUBE_PASSWORD}
                     '''
                 }
             }
