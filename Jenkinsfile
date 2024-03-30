@@ -34,7 +34,11 @@ pipeline {
             steps {
                 // Analyser la qualité du code avec SonarQube
                 withSonarQubeEnv('MonInstanceSonarQube') {
-                    sh "mvn sonar:sonar -Dsonar.login=admin -Dsonar.password=${credentials('sonarqube_token')}"
+                    sh '''
+                    mvn sonar:sonar \
+                        -Dsonar.login=admin \
+                        -Dsonar.password=${credentials('sonarqube_token')}
+                    '''
                 }
             }
         }
